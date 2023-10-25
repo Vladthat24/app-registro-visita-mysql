@@ -22,8 +22,10 @@ class ModeloRegistro
             Tap_RegistroVisita.servidor_publico as servidor_publico,
             Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
             Tap_RegistroVisita.cargo as cargo,
-            FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
-			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
+/*             FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
+			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso, */
+            convert(datetime,Tap_RegistroVisita.fecha_ingreso,103) as fecha_ingreso,
+			Tap_RegistroVisita.hora_ingreso as hora_ingreso,
             FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
             Tap_RegistroVisita.hora_salida as hora_salida,
             Tap_RegistroVisita.usuario as usuario  

@@ -125,7 +125,7 @@
                             }
 
                             $usuarios = ControladorRegistro::ctrRangoFechasRegistro($fechaInicial, $fechaFinal);
-
+                            /* var_dump($usuarios); */
                             foreach ($usuarios as $key => $value) {
 
                                 echo ' <tr>
