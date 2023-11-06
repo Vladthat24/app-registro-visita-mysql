@@ -12,26 +12,26 @@ class ModeloRegistro
 
         if ($fechaInicial == null) {
             /* var_dump("NULL"); */
-            $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
-            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
-            Tap_Funcionario.num_documento as num_documento,
-            Tap_Funcionario.nombre as nombre,
-            Tap_Funcionario.cargo as cargo,
-            (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
-            Tap_RegistroVisita.motivo as motivo,
-            Tap_RegistroVisita.servidor_publico as servidor_publico,
-            Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
-            Tap_RegistroVisita.cargo as cargo,
-/*             FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
-			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso, */
-            convert(datetime,Tap_RegistroVisita.fecha_ingreso,103) as fecha_ingreso,
-			Tap_RegistroVisita.hora_ingreso as hora_ingreso,
-            FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
-            Tap_RegistroVisita.hora_salida as hora_salida,
-            Tap_RegistroVisita.usuario as usuario  
-            FROM $tabla left join Tap_Funcionario  on 
-            Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
-            ORDER BY Tap_RegistroVisita.id DESC");
+            $stmt = Conexion::conectar()->prepare("SELECT tap_registrovisita.id as id,
+            (SELECT tipo_documento FROM tap_tipodocumento WHERE id=tap_funcionario.idtipo_documento) as TipoDocF,    
+            tap_funcionario.num_documento as num_documento,
+            tap_funcionario.nombre as nombre,
+            tap_funcionario.cargo as cargo,
+            (SELECT entidad FROM tap_entidad WHERE id=tap_funcionario.identidad) as ent_funcionario,
+            tap_registrovisita.motivo as motivo,
+            tap_registrovisita.servidor_publico as servidor_publico,
+            tap_registrovisita.area_oficina_sp as area_oficina_sp,
+            tap_registrovisita.cargo as cargo,
+            /* FORMAT(CONVERT(date,tap_registrovisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
+			CONVERT(varchar(25), CAST(tap_registrovisita.hora_ingreso as TIME),100) as hora_ingreso, */
+            DATE_FORMAT(tap_registrovisita.fecha_ingreso, '%d/%m/%Y') as fecha_ingreso,
+            TIME_FORMAT(tap_registrovisita.hora_ingreso, '%H:%i:%s') as hora_ingreso,
+            DATE_FORMAT(tap_registrovisita.fecha_salida, '%d/%m/%Y') as fecha_salida,
+            TIME_FORMAT(tap_registrovisita.hora_salida, '%H:%i:%s') as hora_salida,
+            tap_registrovisita.usuario as usuario  
+            FROM $tabla left join tap_funcionario  on 
+            tap_registrovisita.idfuncionario=tap_funcionario.id 
+            ORDER BY tap_registrovisita.id DESC");
 
             $stmt->execute();
 
@@ -39,25 +39,24 @@ class ModeloRegistro
 
         } else if ($fechaInicial == $fechaFinal) {
             /* var_dump("ELSE IF"); */
-            $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
-            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
-            Tap_Funcionario.num_documento as num_documento,
-            Tap_Funcionario.nombre as nombre,
-            Tap_Funcionario.cargo as cargo,
-            (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
-            Tap_RegistroVisita.motivo as motivo,
-            Tap_RegistroVisita.servidor_publico as servidor_publico,
-            Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
-            Tap_RegistroVisita.cargo as cargo,
-            FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
-			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
-            FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
-            Tap_RegistroVisita.hora_salida as hora_salida,
-            Tap_RegistroVisita.usuario as usuario  
-            FROM $tabla left join Tap_Funcionario  on 
-            Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
-            WHERE FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy')
-            like '%$fechaInicial%' ORDER BY Tap_RegistroVisita.id DESC");
+            $stmt = Conexion::conectar()->prepare("SELECT tap_registrovisita.id as id,
+            (SELECT tipo_documento FROM tap_tipodocumento WHERE id=tap_funcionario.idtipo_documento) as TipoDocF,    
+            tap_funcionario.num_documento as num_documento,
+            tap_funcionario.nombre as nombre,
+            tap_funcionario.cargo as cargo,
+            (SELECT entidad FROM tap_entidad WHERE id=tap_funcionario.identidad) as ent_funcionario,
+            tap_registrovisita.motivo as motivo,
+            tap_registrovisita.servidor_publico as servidor_publico,
+            tap_registrovisita.area_oficina_sp as area_oficina_sp,
+            tap_registrovisita.cargo as cargo,
+            DATE_FORMAT(tap_registrovisita.fecha_ingreso, '%d/%m/%Y') as fecha_ingreso,
+            TIME_FORMAT(tap_registrovisita.hora_ingreso, '%H:%i:%s') as hora_ingreso,
+            DATE_FORMAT(tap_registrovisita.fecha_salida, '%d/%m/%Y') as fecha_salida,
+            TIME_FORMAT(tap_registrovisita.hora_salida, '%H:%i:%s') as hora_salida,
+            tap_registrovisita.usuario as usuario  
+            FROM $tabla left join tap_funcionario  on 
+            tap_registrovisita.idfuncionario=tap_funcionario.id 
+            WHERE DATE_FORMAT(tap_registrovisita.fecha_ingreso, '%d/%m/%Y') LIKE '%$fechaInicial%' ORDER BY tap_registrovisita.id DESC");
 
 
 
@@ -73,25 +72,25 @@ class ModeloRegistro
             //SIN PROBLEMAS EN EL FILTRADO, ES RECOMENDABLE 
             //CONVERTIR UN STRING EN DATE PARA QUE SEA MAS OPTIMO EL FILTRADO
 
-            $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
-            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
-            Tap_Funcionario.num_documento as num_documento,
-            Tap_Funcionario.nombre as nombre,
-            Tap_Funcionario.cargo as cargo,
-            (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
-            Tap_RegistroVisita.motivo as motivo,
-            Tap_RegistroVisita.servidor_publico as servidor_publico,
-            Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
-            Tap_RegistroVisita.cargo as cargo,
-            FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
-			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
-            FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
-            Tap_RegistroVisita.hora_salida as hora_salida,
-            Tap_RegistroVisita.usuario as usuario  
-            FROM $tabla left join Tap_Funcionario  on 
-            Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
-            WHERE CONVERT(date,fecha_ingreso) BETWEEN '$fechaInicial' AND '$fechaFinal' 
-            ORDER BY Tap_RegistroVisita.id DESC");
+            $stmt = Conexion::conectar()->prepare("SELECT tap_registrovisita.id as id,
+            (SELECT tipo_documento FROM tap_tipodocumento WHERE id=tap_funcionario.idtipo_documento) as TipoDocF,    
+            tap_funcionario.num_documento as num_documento,
+            tap_funcionario.nombre as nombre,
+            tap_funcionario.cargo as cargo,
+            (SELECT entidad FROM tap_entidad WHERE id=tap_funcionario.identidad) as ent_funcionario,
+            tap_registrovisita.motivo as motivo,
+            tap_registrovisita.servidor_publico as servidor_publico,
+            tap_registrovisita.area_oficina_sp as area_oficina_sp,
+            tap_registrovisita.cargo as cargo,
+            DATE_FORMAT(tap_registrovisita.fecha_ingreso, '%d/%m/%Y') as fecha_ingreso,
+            TIME_FORMAT(tap_registrovisita.hora_ingreso, '%H:%i:%s') as hora_ingreso,
+            DATE_FORMAT(tap_registrovisita.fecha_salida, '%d/%m/%Y') as fecha_salida,
+            TIME_FORMAT(tap_registrovisita.hora_salida, '%H:%i:%s') as hora_salida,
+            tap_registrovisita.usuario as usuario  
+            FROM $tabla left join tap_funcionario  on 
+            tap_registrovisita.idfuncionario=tap_funcionario.id 
+            WHERE DATE(fecha_ingreso) BETWEEN '$fechaInicial' AND '$fechaFinal'
+            ORDER BY tap_registrovisita.id DESC");
 
             $stmt->execute();
 
@@ -117,24 +116,24 @@ class ModeloRegistro
             return $stmt->fetch();
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
-            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
-            Tap_Funcionario.num_documento as num_documento,
-            Tap_Funcionario.nombre as nombre,
-            Tap_Funcionario.cargo as cargo,
-            (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
-            Tap_RegistroVisita.motivo as motivo,
-            Tap_RegistroVisita.servidor_publico as servidor_publico,
-            Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
-            Tap_RegistroVisita.cargo as cargo,
-            FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
-			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
-            FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
-            Tap_RegistroVisita.hora_salida as hora_salida,
-            Tap_RegistroVisita.usuario as usuario  
-            FROM $tabla left join Tap_Funcionario  on 
-            Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
-            ORDER BY Tap_RegistroVisita.id DESC");
+            $stmt = Conexion::conectar()->prepare("SELECT tap_registrovisita.id as id,
+            (SELECT tipo_documento FROM tap_tipodocumento WHERE id=tap_funcionario.idtipo_documento) as TipoDocF,    
+            tap_funcionario.num_documento as num_documento,
+            tap_funcionario.nombre as nombre,
+            tap_funcionario.cargo as cargo,
+            (SELECT entidad FROM tap_entidad WHERE id=tap_funcionario.identidad) as ent_funcionario,
+            tap_registrovisita.motivo as motivo,
+            tap_registrovisita.servidor_publico as servidor_publico,
+            tap_registrovisita.area_oficina_sp as area_oficina_sp,
+            tap_registrovisita.cargo as cargo,
+            FORMAT(CONVERT(date,tap_registrovisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
+			CONVERT(varchar(25), CAST(tap_registrovisita.hora_ingreso as TIME),100) as hora_ingreso,
+            FORMAT(tap_registrovisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
+            tap_registrovisita.hora_salida as hora_salida,
+            tap_registrovisita.usuario as usuario  
+            FROM $tabla left join tap_funcionario  on 
+            tap_registrovisita.idfuncionario=tap_funcionario.id 
+            ORDER BY tap_registrovisita.id DESC");
 
             $stmt->execute();
 
@@ -218,7 +217,7 @@ class ModeloRegistro
     static public function mdlIngresarRegistroIngresarFuncionario($tabla, $datos)
     {
 
-        $stmt1 = Conexion::conectar()->prepare("INSERT INTO Tap_Funcionario
+        $stmt1 = Conexion::conectar()->prepare("INSERT INTO tap_funcionario
         (idtipo_documento,num_documento,nombre,identidad,
         cargo,fecha_registro) 
         VALUES (:idtipo_documento,:num_documento,:nombre,:identidad,

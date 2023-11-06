@@ -10,7 +10,7 @@ class ControladorRegistro
   static public function ctrRangoFechasRegistro($fechaInicial, $fechaFinal)
   {
 
-    $tabla = "Tap_RegistroVisita";
+    $tabla = "tap_registrovisita";
 
     $respuesta = ModeloRegistro::mdlRangoFechasRegistro($tabla, $fechaInicial, $fechaFinal);
 
@@ -25,7 +25,7 @@ class ControladorRegistro
   static public function ctrMostrarRegistro($item, $valor)
   {
 
-    $tabla = "Tap_RegistroVisita";
+    $tabla = "tap_registrovisita";
 
     $respuesta = ModeloRegistro::mdlMostrarRegistro($tabla, $item, $valor);
 
@@ -50,7 +50,7 @@ class ControladorRegistro
 
         /* $fechaActual = $fecha . ' ' . $hora; */
 
-        $tabla = "Tap_RegistroVisita";
+        $tabla = "tap_registrovisita";
 
         /*var_dump($_POST["nuevFechaSalida"], $_POST["nuevHoraSalida"]); */
 
@@ -123,7 +123,7 @@ class ControladorRegistro
         } else { //REGISTRO CON UN INSERT NUEVO DEL FUNCIONARIO
 
 
-          $tabla = "Tap_Entidad";
+          $tabla = "tap_entidad";
 
           $datos = $_POST["nuevEntidadFuncionario"];
           //SE INGRESA LA NUEVA ENTIDAD
@@ -161,7 +161,7 @@ class ControladorRegistro
             "hora_ingreso" => $hora,
             "usuario" => $_POST["nuevUsuarioDigitador"]
           );
-          $tablaRegistro = "Tap_RegistroVisita";
+          $tablaRegistro = "tap_registrovisita";
           $respuesta = ModeloRegistro::mdlIngresarRegistroIngresarFuncionario($tablaRegistro, $datosfuncionario);
 
 
@@ -237,7 +237,7 @@ class ControladorRegistro
       if ($_POST["editarIdRegistro"]) {
 
 
-        $tabla = "Tap_RegistroVisita";
+        $tabla = "tap_registrovisita";
 
         $dateformato = new DateTime($_POST["editarFechaSalida"]);
 
@@ -320,7 +320,7 @@ class ControladorRegistro
 
     if (isset($_GET["idRegistro"])) {
 
-      $tabla = "Tap_RegistroVisita";
+      $tabla = "tap_registrovisita";
       $datos = $_GET["idRegistro"];
 
       $respuesta = ModeloRegistro::mdlEliminarRegistro($tabla, $datos);
@@ -355,7 +355,7 @@ class ControladorRegistro
 
     if (isset($_GET["reporte"])) {
 
-      $tabla = "Tap_RegistroVisita";
+      $tabla = "tap_registrovisita";
 
       if (isset($_GET["start_date"]) && isset($_GET["end_date"])) {
 
